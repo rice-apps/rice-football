@@ -1,4 +1,6 @@
-import { client, getGames } from 'cfbd';
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { client, getGames, Game } from 'cfbd';
 
 async function main() {
   const apiKey = process.env.CFBD_API_KEY;
@@ -24,7 +26,13 @@ async function main() {
     throw response.error;
   }
 
-  console.log(response.data?.[0]);
+  const outputDirectory = path.join(process.cwd(), 'samples', 'cfbd');
+  const outputPath = path.join(outputDirectory, 'games.json');
+
+  await mkdir(outputDirectory, { recursive: true });
+  await writeFile(outputPath, JSON.stringify(response.data ?? [], null, 2) + '\n', 'utf8');
+
+  console.log(`Wrote ${response.data?.length ?? 0} games to ${outputPath}`);
 }
 
 main().catch((error) => {

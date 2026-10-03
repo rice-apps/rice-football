@@ -1,3 +1,5 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import { client, getTeams } from 'cfbd';
 
 async function main() {
@@ -19,7 +21,13 @@ async function main() {
     throw response.error;
   }
 
-  console.log(response.data?.[0]);
+  const outputDirectory = path.join(process.cwd(), 'samples', 'cfbd');
+  const outputPath = path.join(outputDirectory, 'teams.json');
+
+  await mkdir(outputDirectory, { recursive: true });
+  await writeFile(outputPath, JSON.stringify(response.data ?? [], null, 2) + '\n', 'utf8');
+
+  console.log(`Wrote ${response.data?.length ?? 0} teams to ${outputPath}`);
 }
 
 main().catch((error) => {
