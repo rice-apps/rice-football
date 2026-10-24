@@ -1,0 +1,122 @@
+[
+  {
+    "gameId": "401862697",
+    "week": 1,
+    "opponent": "Houston Christian",
+    "homeAway": "home",
+    "date": "2026-09-05T23:00:00.000Z",
+    "status": "completed",
+    "riceScore": 31,
+    "opponentScore": 3
+  },
+  {
+    "gameId": "401859184",
+    "week": 2,
+    "opponent": "Notre Dame",
+    "homeAway": "away",
+    "date": "2026-09-12T19:30:00.000Z",
+    "status": "completed",
+    "riceScore": 0,
+    "opponentScore": 52
+  },
+  {
+    "gameId": "401862773",
+    "week": 3,
+    "opponent": "Western Michigan",
+    "homeAway": "home",
+    "date": "2026-09-19T23:00:00.000Z",
+    "status": "completed",
+    "riceScore": 21,
+    "opponentScore": 28
+  },
+  {
+    "gameId": "401860891",
+    "week": 4,
+    "opponent": "Fresno State",
+    "homeAway": "away",
+    "date": "2026-09-27T02:00:00.000Z",
+    "status": "completed",
+    "riceScore": 24,
+    "opponentScore": 38
+  },
+  {
+    "gameId": "401862788",
+    "week": 5,
+    "opponent": "UTSA",
+    "homeAway": "home",
+    "date": "2026-10-03T23:00:00.000Z",
+    "status": "completed",
+    "riceScore": 14,
+    "opponentScore": 16
+  },
+  {
+    "gameId": "401862797",
+    "week": 6,
+    "opponent": "East Carolina",
+    "homeAway": "away",
+    "date": "2026-10-10T17:00:00.000Z",
+    "status": "completed",
+    "riceScore": 12,
+    "opponentScore": 28
+  },
+  {
+    "gameId": "401862805",
+    "week": 7,
+    "opponent": "Tulsa",
+    "homeAway": "home",
+    "date": "2026-10-17T20:30:00.000Z",
+    "status": "completed",
+    "riceScore": 17,
+    "opponentScore": 38
+  },
+  {
+    "gameId": "401862809",
+    "week": 8,
+    "opponent": "Florida Atlantic",
+    "homeAway": "away",
+    "date": "2026-10-24T16:00:00.000Z",
+    "status": "scheduled",
+    "riceScore": null,
+    "opponentScore": null
+  },
+  {
+    "gameId": "401862821",
+    "week": 10,
+    "opponent": "North Texas",
+    "homeAway": "away",
+    "date": "2026-11-07T05:00:00.000Z",
+    "status": "scheduled",
+    "riceScore": null,
+    "opponentScore": null
+  },
+  {
+    "gameId": "401862828",
+    "week": 11,
+    "opponent": "Tulane",
+    "homeAway": "home",
+    "date": "2026-11-14T05:00:00.000Z",
+    "status": "scheduled",
+    "riceScore": null,
+    "opponentScore": null
+  },
+  {
+    "gameId": "401862830",
+    "week": 12,
+    "opponent": "Temple",
+    "homeAway": "away",
+    "date": "2026-11-20T00:30:00.000Z",
+    "status": "scheduled",
+    "riceScore": null,
+    "opponentScore": null
+  },
+  {
+    "gameId": "401862841",
+    "week": 13,
+    "opponent": "Army",
+    "homeAway": "home",
+    "date": "2026-11-28T05:00:00.000Z",
+    "status": "scheduled",
+    "riceScore": null,
+    "opponentScore": null
+  }
+]
