@@ -1,0 +1,35 @@
+.page {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.subtitle {
+  color: #666;
+}
+
+.error {
+  color: #b00020;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background: #00205b; /* Rice blue */
+  color: white;
+}
+
+.table tbody tr:hover {
+  background: #f3f5f9;
+}
