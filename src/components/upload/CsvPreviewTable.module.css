@@ -1,0 +1,42 @@
+/* Wide or long tables scroll inside this box instead of stretching the page.
+   The header row stays visible while scrolling (see `position: sticky` below). */
+.scrollArea {
+  overflow: auto;
+  max-height: 32rem;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+}
+
+.table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid #eaecf0;
+  text-align: left;
+  white-space: nowrap;
+  /* Long values are cut off with "…"; hovering shows the full value. */
+  max-width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th {
+  background: #f2f4f7;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.lineNumber {
+  color: #667085;
+  font-variant-numeric: tabular-nums;
+}
+
+.mismatchedRow {
+  background: #fffaeb;
+}
