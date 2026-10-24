@@ -1,0 +1,7 @@
+game_id,season,week,season_type,start_date,venue,home_team_id,away_team_id,home_points,away_points
+game-1,2026,1,regular,2026-09-05,Rice Stadium,rice,houston-christian,31,3
+game-2,2026,2,regular,2026-09-12,Notre Dame Stadium,notre-dame,rice,52,0
+game-3,2026,3,regular,2026-09-19,Rice Stadium,rice,western-michigan,21,28
+game-4,2026,4,regular,2026-09-26,Valley Children's Stadium,fresno-state,rice,38,24
+game-5,2025,1,regular,2025-08-30,Rice Stadium,rice,utsa,17,24
+game-6,2026,1,regular,2026-09-05,Alamodome,utsa,east-carolina,27,20
