@@ -1,0 +1,100 @@
+[
+  {
+    "team": "UTSA",
+    "conferenceWins": 3,
+    "conferenceLosses": 0,
+    "overallWins": 6,
+    "overallLosses": 1
+  },
+  {
+    "team": "North Texas",
+    "conferenceWins": 2,
+    "conferenceLosses": 0,
+    "overallWins": 4,
+    "overallLosses": 2
+  },
+  {
+    "team": "Army",
+    "conferenceWins": 4,
+    "conferenceLosses": 1,
+    "overallWins": 5,
+    "overallLosses": 2
+  },
+  {
+    "team": "Memphis",
+    "conferenceWins": 3,
+    "conferenceLosses": 1,
+    "overallWins": 6,
+    "overallLosses": 2
+  },
+  {
+    "team": "UAB",
+    "conferenceWins": 2,
+    "conferenceLosses": 1,
+    "overallWins": 4,
+    "overallLosses": 3
+  },
+  {
+    "team": "Florida Atlantic",
+    "conferenceWins": 1,
+    "conferenceLosses": 1,
+    "overallWins": 4,
+    "overallLosses": 2
+  },
+  {
+    "team": "Tulane",
+    "conferenceWins": 1,
+    "conferenceLosses": 1,
+    "overallWins": 3,
+    "overallLosses": 3
+  },
+  {
+    "team": "South Florida",
+    "conferenceWins": 1,
+    "conferenceLosses": 2,
+    "overallWins": 5,
+    "overallLosses": 2
+  },
+  {
+    "team": "East Carolina",
+    "conferenceWins": 1,
+    "conferenceLosses": 2,
+    "overallWins": 3,
+    "overallLosses": 4
+  },
+  {
+    "team": "Temple",
+    "conferenceWins": 1,
+    "conferenceLosses": 2,
+    "overallWins": 2,
+    "overallLosses": 5
+  },
+  {
+    "team": "Charlotte",
+    "conferenceWins": 1,
+    "conferenceLosses": 2,
+    "overallWins": 1,
+    "overallLosses": 6
+  },
+  {
+    "team": "Tulsa",
+    "conferenceWins": 1,
+    "conferenceLosses": 3,
+    "overallWins": 4,
+    "overallLosses": 4
+  },
+  {
+    "team": "Navy",
+    "conferenceWins": 1,
+    "conferenceLosses": 3,
+    "overallWins": 2,
+    "overallLosses": 4
+  },
+  {
+    "team": "Rice",
+    "conferenceWins": 0,
+    "conferenceLosses": 3,
+    "overallWins": 1,
+    "overallLosses": 6
+  }
+]
