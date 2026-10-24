@@ -2,7 +2,7 @@
 
 import { useRef, useState, type ChangeEvent } from "react";
 import { parseJson } from "@/lib/json/parseJson";
-import { validateJson } from "@/lib/json/validateJson";
+import { validateJson, type JsonSchema } from "@/lib/json/validateJson";
 import styles from "./JsonUploader.module.css";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -17,7 +17,11 @@ type UploadResult = {
   truncated?: boolean;
 };
 
-export function JsonUploader() {
+type JsonUploaderProps = {
+  schema?: JsonSchema;
+};
+
+export function JsonUploader({ schema = {} }: JsonUploaderProps) {
   const [result, setResult] = useState<UploadResult | null>(null);
   const [isReading, setIsReading] = useState(false);
   const latestRead = useRef(0);
@@ -48,8 +52,8 @@ export function JsonUploader() {
         return;
       }
 
-      // No vendor schema is assumed: accept an object or an array of objects.
-      const issues = validateJson(parsed.data, {});
+      // The schema comes from the page; no vendor format is assumed here.
+      const issues = validateJson(parsed.data, schema);
       if (issues.length > 0) {
         const errors = issues.slice(0, 20).map((issue) =>
           `${issue.recordIndex === null ? "" : `Record ${issue.recordIndex + 1}: `}${issue.message}`,
