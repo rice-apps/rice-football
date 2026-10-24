@@ -1,0 +1,10 @@
+.page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.intro {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}

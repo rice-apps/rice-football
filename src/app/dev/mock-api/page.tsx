@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
-
-// Same shape as the objects in src/app/api/mock/teams/route.ts
-type Team = {
-  id: string;
-  name: string;
-  mascot: string;
-};
+import type { Team } from "@/types/team";
 
 export default function MockApiPage() {
   const [teams, setTeams] = useState<Team[]>([]);
@@ -47,7 +41,7 @@ export default function MockApiPage() {
           {teams.map((team) => (
             <tr key={team.id}>
               <td>{team.id}</td>
-              <td>{team.name}</td>
+              <td>{team.school}</td>
               <td>{team.mascot}</td>
             </tr>
           ))}
