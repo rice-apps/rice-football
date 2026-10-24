@@ -1,0 +1,6 @@
+/* The element selector outranks .ui-input, whose fixed 40px height is meant for single-line inputs. */
+textarea.questionInput {
+  height: auto;
+  padding: var(--space-2) var(--space-3);
+  resize: vertical;
+}

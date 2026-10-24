@@ -1,0 +1,31 @@
+.cellStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+/* Keep line breaks the submitter typed. */
+.questionText {
+  white-space: pre-wrap;
+}
+
+.saveWarning {
+  margin-bottom: var(--space-4);
+}
+
+/* The element selector outranks .ui-select's background and text color. */
+select.statusOpen {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+select.statusInProgress {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+select.statusAnswered {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
