@@ -52,7 +52,7 @@ export async function cfbdRequest<T>(call: () => Promise<CfbdResult<T>>): Promis
   return data;
 }
 
-/* Throws if the CFBD cannot have data for it (1869 through next year) */
+/* Throws if the CFBD is known to not have data for the season (valid range is 1869 through next yera) */
 export function validateSeason(season: number): void {
   const lastSeason = new Date().getFullYear() + 1;
 
