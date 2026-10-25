@@ -1,3 +1,17 @@
+#' Get a team's schedule
+#'
+#' Returns one team's games for a season, in date order.
+#'
+#' @param team A school name such as `"Rice"`, or a `team_id` such as
+#'   `"notre-dame"`. Case does not matter. See [get_teams()] for valid teams.
+#' @param season A single year, such as `2026`.
+#' @return A data frame with the same columns as [get_games()], containing only
+#'   games where `team` played home or away.
+#' @examples
+#' rice_schedule <- get_schedule(team = "Rice", season = 2026)
+#' rice_schedule[, c("week", "home_team_id", "away_team_id")]
+#' @export
+
 get_schedule <- function(team, season) {
     check_string(team, "team")
     check_season(season)
