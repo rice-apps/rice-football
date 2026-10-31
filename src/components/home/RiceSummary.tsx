@@ -1,9 +1,12 @@
 import Card from "@/components/ui/Card";
 import type { ScheduleGame } from "@/data/mock/home";
+import type { SectionSource } from "@/lib/cfbd/home";
 import { formatGameDate, formatKickoffTime, formatRecord } from "./format";
+import MockBadge from "./MockBadge";
 
 type RiceSummaryProps = {
   schedule: ScheduleGame[];
+  source: SectionSource;
 };
 
 function recordFrom(games: ScheduleGame[]) {
@@ -12,7 +15,16 @@ function recordFrom(games: ScheduleGame[]) {
   return { wins, losses: played.length - wins };
 }
 
-export default function RiceSummary({ schedule }: RiceSummaryProps) {
+export default function RiceSummary({ schedule, source }: RiceSummaryProps) {
+  // With no schedule, the derived records would read 0-0 and "Season complete", so say it's unavailable instead.
+  if (source === "unavailable") {
+    return (
+      <Card title="Rice summary">
+        <p className="table-empty">Rice&apos;s record and next game are unavailable right now.</p>
+      </Card>
+    );
+  }
+
   // Records are derived from the schedule so the two sections can't disagree.
   const overall = recordFrom(schedule);
   const conference = recordFrom(schedule.filter((game) => game.isConference));
@@ -29,7 +41,7 @@ export default function RiceSummary({ schedule }: RiceSummaryProps) {
     {
       label: "Next game",
       value: nextGame ? formatGameDate(nextGame.kickoff) : "None",
-      detail: nextGame ? formatKickoffTime(nextGame.kickoff) : undefined,
+      detail: nextGame ? (nextGame.kickoffTbd ? "Time TBD" : formatKickoffTime(nextGame.kickoff)) : undefined,
     },
   ];
 
@@ -42,6 +54,7 @@ export default function RiceSummary({ schedule }: RiceSummaryProps) {
             <div className="stat-card__value home-summary__value">{stat.value}</div>
             {stat.detail ? <div className="home-summary__detail">{stat.detail}</div> : null}
           </div>
+          {source === "mock" ? <MockBadge /> : null}
         </Card>
       ))}
     </section>

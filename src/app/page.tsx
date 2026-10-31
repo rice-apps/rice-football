@@ -31,9 +31,9 @@ async function HomeSections() {
 
   return (
     <>
-      <RiceSummary schedule={schedule.data} />
-      <ConferenceStandings conference={CONFERENCE_NAME} standings={standings.data} />
-      <RiceSchedule season={season} schedule={schedule.data} />
+      <RiceSummary schedule={schedule.data} source={schedule.source} />
+      <ConferenceStandings conference={CONFERENCE_NAME} standings={standings.data} source={standings.source} />
+      <RiceSchedule season={season} schedule={schedule.data} source={schedule.source} />
     </>
   );
 }
