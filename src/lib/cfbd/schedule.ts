@@ -51,6 +51,7 @@ function toScheduleGame(game: Game): ScheduleGame {
     opponent: isHome ? game.awayTeam : game.homeTeam,
     homeAway: isHome ? 'home' : 'away',
     date: game.startDate,
+    startTimeTbd: game.startTimeTBD,
     status: game.completed ? 'completed' : 'scheduled',
     riceScore: (isHome ? game.homePoints : game.awayPoints) ?? null,
     opponentScore: (isHome ? game.awayPoints : game.homePoints) ?? null,
