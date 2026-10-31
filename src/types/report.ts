@@ -14,6 +14,7 @@ export type Report = {
   category: ReportCategory;
   kind: ReportKind;
   fileType: string; // extension, e.g. ".pdf", ".R"
+  fileUrl?: string; // local or hosted report file, when available
   createdAt: string; // ISO date string
 };
 
