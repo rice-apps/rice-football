@@ -5,6 +5,8 @@ import { client } from 'cfbd';
 
 const SAMPLES_DIRECTORY = path.join(process.cwd(), 'samples', 'cfbd');
 const DEFAULT_SAMPLE_LIMIT = 25;
+const MAX_ERROR_LENGTH = 200;
+const FIRST_SEASON = 1869;
 
 let isConfigured = false;
 
@@ -42,12 +44,21 @@ export async function cfbdRequest<T>(call: () => Promise<CfbdResult<T>>): Promis
   const { data, error, response } = await call();
 
   if (error !== undefined || data === undefined) {
-    throw new Error(
-      `CFBD request failed (${response.status} ${response.statusText}): ${JSON.stringify(error)}`,
-    );
+    // Errors can be whole HTML pages (e.g. Cloudflare 502s), so only keep the start
+    const details = (typeof error === 'string' ? error : JSON.stringify(error) ?? '').slice(0, MAX_ERROR_LENGTH);
+    throw new Error(`CFBD request failed (${response.status} ${response.statusText}): ${details}`);
   }
 
   return data;
+}
+
+/* Throws if the CFBD is known to not have data for the season (valid range is 1869 through next yera) */
+export function validateSeason(season: number): void {
+  const lastSeason = new Date().getFullYear() + 1;
+
+  if (!Number.isInteger(season) || season < FIRST_SEASON || season > lastSeason) {
+    throw new Error(`Invalid season ${season}: expected a year from ${FIRST_SEASON} to ${lastSeason}`);
+  }
 }
 
 /* Writes a response to samples/cfbd/<name>.json. Arrays are truncated according to the limit */
