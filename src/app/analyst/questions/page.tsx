@@ -43,7 +43,7 @@ export default function AnalystQuestionsPage() {
     return onQuestionsChangedInOtherTab(() => setQuestions(loadQuestions()));
   }, []);
 
-  function handleStatusChange(questionId: string, status: string) {
+  function handleStatusChange(questionId: number, status: string) {
     if (!questions || !isQuestionStatus(status)) return;
     const updated = questions.map((question) => (question.id === questionId ? { ...question, status } : question));
     setQuestions(updated);

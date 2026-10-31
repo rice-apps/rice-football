@@ -37,9 +37,9 @@ function validate(values: FormValues): FormErrors {
   return errors;
 }
 
-// crypto.randomUUID only exists on HTTPS or localhost, e.g. not when demoing over a LAN IP.
-function createQuestionId(): string {
-  return `question-${crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`}`;
+// Temporary until submissions go through the API, which gets ids from the database.
+function createQuestionId(): number {
+  return Date.now();
 }
 
 export default function AskQuestionPage() {
@@ -62,13 +62,16 @@ export default function AskQuestionPage() {
     setFeedback(null);
     if (Object.keys(nextErrors).length > 0) return;
 
+    const now = new Date().toISOString();
     const question: Question = {
       id: createQuestionId(),
       submittedBy: values.submittedBy.trim(),
       submitterTitle: values.submitterTitle.trim(),
       text: values.text.trim(),
       status: "open",
-      createdAt: new Date().toISOString(),
+      answer: null,
+      createdAt: now,
+      updatedAt: now,
     };
 
     if (!saveQuestions([question, ...loadQuestions()])) {

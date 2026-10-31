@@ -10,7 +10,7 @@ function isQuestion(value: unknown): value is Question {
   if (typeof value !== "object" || value === null) return false;
   const candidate = value as Record<string, unknown>;
   return (
-    typeof candidate.id === "string" &&
+    typeof candidate.id === "number" &&
     typeof candidate.submittedBy === "string" &&
     typeof candidate.submitterTitle === "string" &&
     typeof candidate.text === "string" &&
