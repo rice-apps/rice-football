@@ -11,6 +11,7 @@ export type ScheduleGame = {
   /* ISO timestamp in UTC */
   date: string;
   startTimeTbd: boolean;
+  conferenceGame: boolean;
   status: 'scheduled' | 'completed';
   /* null until the game is completed */
   riceScore: number | null;

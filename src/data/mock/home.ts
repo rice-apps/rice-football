@@ -28,6 +28,8 @@ export type ScheduleGame = {
   week: number;
   /** ISO 8601 kickoff time with offset. */
   kickoff: string;
+  /** True when the kickoff time hasn't been announced yet. */
+  kickoffTbd?: boolean;
   opponentId: string;
   opponent: string;
   isHome: boolean;
