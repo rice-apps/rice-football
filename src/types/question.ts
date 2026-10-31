@@ -16,6 +16,12 @@ export type Question = {
 
 export const QUESTION_STATUSES: QuestionStatus[] = ["open", "in-progress", "answered"];
 
+export const QUESTION_STATUS_LABELS: Record<QuestionStatus, string> = {
+  open: "Open",
+  "in-progress": "In progress",
+  answered: "Answered",
+};
+
 export function isQuestionStatus(value: unknown): value is QuestionStatus {
   return typeof value === "string" && (QUESTION_STATUSES as string[]).includes(value);
 }
