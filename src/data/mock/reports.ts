@@ -1,7 +1,7 @@
 import type { Report } from "@/types/report";
 
 // Fictional analyst reports — names and contents are invented for the prototype.
-// Covers every category with a mix of static and runnable reports.
+// Static reports link to local samples; runnable entries remain analyst-only.
 export const reports: Report[] = [
   {
     id: "report-1",
@@ -11,6 +11,7 @@ export const reports: Report[] = [
     category: "offense",
     kind: "static",
     fileType: ".pdf",
+    fileUrl: "/reports/red-zone-efficiency.pdf",
     createdAt: "2026-10-20T14:30:00Z",
   },
   {
@@ -31,6 +32,7 @@ export const reports: Report[] = [
     category: "offense",
     kind: "static",
     fileType: ".html",
+    fileUrl: "/reports/third-down-tendencies.html",
     createdAt: "2026-10-12T16:45:00Z",
   },
   {
@@ -40,7 +42,8 @@ export const reports: Report[] = [
       "Static summary of blitz and pressure rates for upcoming opponents.",
     category: "defense",
     kind: "static",
-    fileType: ".pdf",
+    fileType: ".html",
+    fileUrl: "/reports/opponent-pressure-rates.html",
     createdAt: "2026-10-19T11:00:00Z",
   },
   {
@@ -61,6 +64,7 @@ export const reports: Report[] = [
     category: "defense",
     kind: "static",
     fileType: ".csv",
+    fileUrl: "/reports/tackling-efficiency.csv",
     createdAt: "2026-10-08T10:05:00Z",
   },
   {
@@ -70,7 +74,8 @@ export const reports: Report[] = [
       "Net punting and opponent starting field position trends across the season.",
     category: "special-teams",
     kind: "static",
-    fileType: ".pdf",
+    fileType: ".csv",
+    fileUrl: "/reports/special-teams-field-position.csv",
     createdAt: "2026-10-17T15:40:00Z",
   },
   {
@@ -91,6 +96,7 @@ export const reports: Report[] = [
     category: "player-personnel",
     kind: "static",
     fileType: ".csv",
+    fileUrl: "/reports/transfer-portal-watchlist.csv",
     createdAt: "2026-10-21T17:10:00Z",
   },
   {
@@ -111,6 +117,7 @@ export const reports: Report[] = [
     category: "player-personnel",
     kind: "static",
     fileType: ".html",
+    fileUrl: "/reports/depth-chart-scenarios.html",
     createdAt: "2026-10-06T14:00:00Z",
   },
 ];
