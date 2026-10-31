@@ -1,4 +1,5 @@
-const navItems = ["Overview", "Workspace", "Components", "Settings"];
+import Link from "next/link";
+import { navItems } from "./navItems";
 
 export default function Header() {
   return (
@@ -13,21 +14,17 @@ export default function Header() {
 
       <nav className="app-header__nav" aria-label="Primary navigation">
         {navItems.map((item) => (
-          <a
-            key={item}
-            href="#"
+          <Link
+            key={item.label}
+            href={item.href}
             className={`app-header__nav-link ${
-              item === "Overview" ? "app-header__nav-link--active" : ""
+              item.label === "Home" ? "app-header__nav-link--active" : ""
             }`}
           >
-            {item}
-          </a>
+            {item.label}
+          </Link>
         ))}
       </nav>
-
-      <button type="button" className="button button--primary button--sm">
-        New view
-      </button>
     </header>
   );
 }

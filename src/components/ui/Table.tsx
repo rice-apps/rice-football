@@ -16,6 +16,8 @@ type TableProps<T extends Record<string, unknown>> = {
   // Allow the caller to supply a stable row identity so React can reconcile updates
   // without issues when rows are filtered, sorted, or inserted dynamically.
   getRowKey?: (row: T, index: number) => string | number;
+  // Optional per-row class, e.g. to highlight a row with "table__row--highlight".
+  getRowClassName?: (row: T, index: number) => string | undefined;
 };
 
 export default function Table<T extends Record<string, unknown>>({
@@ -24,6 +26,7 @@ export default function Table<T extends Record<string, unknown>>({
   emptyMessage = "No records found.",
   className = "",
   getRowKey,
+  getRowClassName,
 }: TableProps<T>) {
   // Use a stable row key when available; otherwise prefer a row.id if it exists.
   // This avoids key instability from index-only keys when the list changes.
@@ -57,7 +60,7 @@ export default function Table<T extends Record<string, unknown>>({
             </tr>
           ) : (
             data.map((row, index) => (
-              <tr key={resolveRowKey(row, index)}>
+              <tr key={resolveRowKey(row, index)} className={getRowClassName?.(row, index)}>
                 {columns.map((column) => {
                   const value = row[column.key as keyof T];
                   const cellContent: ReactNode = column.render

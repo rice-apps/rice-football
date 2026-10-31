@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 type PageContainerProps = {
+  eyebrow?: string;
   title: string;
   subtitle?: string;
   actions?: ReactNode;
@@ -8,6 +9,7 @@ type PageContainerProps = {
 };
 
 export default function PageContainer({
+  eyebrow,
   title,
   subtitle,
   actions,
@@ -17,7 +19,7 @@ export default function PageContainer({
     <div className="page-container">
       <div className="page-container__header">
         <div>
-          <p className="page-container__eyebrow">Application shell</p>
+          {eyebrow ? <p className="page-container__eyebrow">{eyebrow}</p> : null}
           <h1 className="page-container__title">{title}</h1>
           {subtitle ? <p className="page-container__subtitle">{subtitle}</p> : null}
         </div>

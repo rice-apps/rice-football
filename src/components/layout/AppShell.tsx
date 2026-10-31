@@ -4,6 +4,7 @@ import PageContainer from "./PageContainer";
 import Sidebar from "./Sidebar";
 
 type AppShellProps = {
+  eyebrow?: string;
   title?: string;
   subtitle?: string;
   actions?: ReactNode;
@@ -11,6 +12,7 @@ type AppShellProps = {
 };
 
 export default function AppShell({
+  eyebrow,
   title = "Overview",
   subtitle = "A reusable foundation for future product pages.",
   actions,
@@ -24,7 +26,7 @@ export default function AppShell({
         <Sidebar />
 
         <main className="app-shell__main">
-          <PageContainer title={title} subtitle={subtitle} actions={actions}>
+          <PageContainer eyebrow={eyebrow} title={title} subtitle={subtitle} actions={actions}>
             {children}
           </PageContainer>
         </main>
