@@ -1,0 +1,50 @@
+play_id,game_id,offense_team_id,defense_team_id,drive_number,play_number,period,down,distance,yards_to_goal,yards_gained,play_type,play_text,scoring
+play-1,game-1,rice,houston-christian,1,1,1,1,10,75,6,Rush,Jalen Whitfield run for 6 yds,FALSE
+play-2,game-1,rice,houston-christian,1,2,1,2,4,69,11,Pass Reception,Marcus Delgado pass complete to Trevon Baptiste for 11 yds,FALSE
+play-3,game-1,rice,houston-christian,1,3,1,1,10,58,0,Rush,Jalen Whitfield run for no gain,FALSE
+play-4,game-1,rice,houston-christian,1,4,1,2,10,58,14,Pass Reception,Marcus Delgado pass complete to Owen Kowalski for 14 yds,FALSE
+play-5,game-1,rice,houston-christian,1,5,1,1,10,44,0,Pass Incompletion,Marcus Delgado pass incomplete to Cole Hendricks,FALSE
+play-6,game-1,rice,houston-christian,1,6,1,2,10,44,19,Pass Reception,Marcus Delgado pass complete to Cole Hendricks for 19 yds,FALSE
+play-7,game-1,rice,houston-christian,1,7,1,1,10,25,3,Rush,Jalen Whitfield run for 3 yds,FALSE
+play-8,game-1,rice,houston-christian,1,8,1,2,7,22,22,Passing Touchdown,Marcus Delgado pass complete to Trevon Baptiste for 22 yds for a TD,TRUE
+play-9,game-1,houston-christian,rice,2,1,2,1,10,72,3,Rush,Deshawn Mabry run for 3 yds,FALSE
+play-10,game-1,houston-christian,rice,2,2,2,2,7,69,0,Pass Incompletion,Tyler Brannigan pass incomplete to Deshawn Mabry,FALSE
+play-11,game-1,houston-christian,rice,2,3,2,3,7,69,-8,Sack,Tyler Brannigan sacked by Darius Fontenot for a loss of 8 yds,FALSE
+play-12,game-1,houston-christian,rice,2,4,2,4,15,77,0,Punt,Houston Christian punt for 41 yds,FALSE
+play-13,game-2,notre-dame,rice,1,1,1,1,10,65,8,Rush,Malik Easterling run for 8 yds,FALSE
+play-14,game-2,notre-dame,rice,1,2,1,2,2,57,5,Rush,Malik Easterling run for 5 yds,FALSE
+play-15,game-2,notre-dame,rice,1,3,1,1,10,52,17,Pass Reception,Connor Reilly pass complete to Malik Easterling for 17 yds,FALSE
+play-16,game-2,notre-dame,rice,1,4,1,1,10,35,35,Rushing Touchdown,Malik Easterling run for 35 yds for a TD,TRUE
+play-17,game-2,rice,notre-dame,2,1,2,1,10,80,2,Rush,Jalen Whitfield run for 2 yds,FALSE
+play-18,game-2,rice,notre-dame,2,2,2,2,8,78,-7,Sack,Marcus Delgado sacked by Jordan Achebe for a loss of 7 yds,FALSE
+play-19,game-2,rice,notre-dame,2,3,2,3,15,85,9,Pass Reception,Marcus Delgado pass complete to Cole Hendricks for 9 yds,FALSE
+play-20,game-2,rice,notre-dame,2,4,2,4,6,76,0,Punt,Rice punt for 44 yds,FALSE
+play-21,game-2,rice,notre-dame,3,1,3,1,10,70,12,Pass Reception,Marcus Delgado pass complete to Trevon Baptiste for 12 yds,FALSE
+play-22,game-2,rice,notre-dame,3,2,3,1,10,58,0,Interception,Marcus Delgado pass intercepted by Jordan Achebe,FALSE
+play-23,game-3,western-michigan,rice,1,1,2,1,10,60,13,Pass Reception,Nate Lindqvist pass complete to Kareem Dawson for 13 yds,FALSE
+play-24,game-3,western-michigan,rice,1,2,2,1,10,47,4,Rush,Nate Lindqvist run for 4 yds,FALSE
+play-25,game-3,western-michigan,rice,1,3,2,2,6,43,0,Pass Incompletion,Nate Lindqvist pass incomplete to Kareem Dawson,FALSE
+play-26,game-3,western-michigan,rice,1,4,2,3,6,43,21,Pass Reception,Nate Lindqvist pass complete to Kareem Dawson for 21 yds,FALSE
+play-27,game-3,western-michigan,rice,1,5,2,1,10,22,-2,Rush,Nate Lindqvist run for a loss of 2 yds,FALSE
+play-28,game-3,western-michigan,rice,1,6,2,2,12,24,24,Passing Touchdown,Nate Lindqvist pass complete to Kareem Dawson for 24 yds for a TD,TRUE
+play-29,game-3,rice,western-michigan,2,1,4,1,10,68,12,Rush,Jalen Whitfield run for 12 yds,FALSE
+play-30,game-3,rice,western-michigan,2,2,4,1,10,56,7,Pass Reception,Marcus Delgado pass complete to Owen Kowalski for 7 yds,FALSE
+play-31,game-3,rice,western-michigan,2,3,4,2,3,49,1,Rush,Jalen Whitfield run for 1 yds,FALSE
+play-32,game-3,rice,western-michigan,2,4,4,3,2,48,1,Rush,Jalen Whitfield run for 1 yds,FALSE
+play-33,game-3,rice,western-michigan,2,5,4,4,1,47,3,Rush,Marcus Delgado run for 3 yds,FALSE
+play-34,game-3,rice,western-michigan,2,6,4,1,10,44,44,Passing Touchdown,Marcus Delgado pass complete to Trevon Baptiste for 44 yds for a TD,TRUE
+play-35,game-4,rice,fresno-state,1,1,1,1,10,75,15,Pass Reception,Marcus Delgado pass complete to Cole Hendricks for 15 yds,FALSE
+play-36,game-4,rice,fresno-state,1,2,1,1,10,60,9,Rush,Jalen Whitfield run for 9 yds,FALSE
+play-37,game-4,rice,fresno-state,1,3,1,2,1,51,27,Pass Reception,Marcus Delgado pass complete to Trevon Baptiste for 27 yds,FALSE
+play-38,game-4,rice,fresno-state,1,4,1,1,10,24,2,Rush,Jalen Whitfield run for 2 yds,FALSE
+play-39,game-4,rice,fresno-state,1,5,1,2,8,22,0,Pass Incompletion,Marcus Delgado pass incomplete to Owen Kowalski,FALSE
+play-40,game-4,rice,fresno-state,1,6,1,3,8,22,0,Pass Incompletion,Marcus Delgado pass incomplete to Trevon Baptiste,FALSE
+play-41,game-4,rice,fresno-state,1,7,1,4,8,22,0,Field Goal Good,Ethan Vargas 39 yd FG GOOD,TRUE
+play-42,game-4,fresno-state,rice,2,1,3,1,10,55,7,Rush,Elijah Tuiasosopo run for 7 yds,FALSE
+play-43,game-4,fresno-state,rice,2,2,3,2,3,48,18,Pass Reception,Mateo Sandoval pass complete to Caleb Nakamura for 18 yds,FALSE
+play-44,game-4,fresno-state,rice,2,3,3,1,10,30,0,Pass Incompletion,Mateo Sandoval pass incomplete to Caleb Nakamura,FALSE
+play-45,game-4,fresno-state,rice,2,4,3,2,10,30,30,Rushing Touchdown,Elijah Tuiasosopo run for 30 yds for a TD,TRUE
+play-46,game-4,fresno-state,rice,3,1,4,1,10,32,3,Rush,Elijah Tuiasosopo run for 3 yds,FALSE
+play-47,game-4,fresno-state,rice,3,2,4,2,7,29,0,Pass Incompletion,Mateo Sandoval pass incomplete to Caleb Nakamura,FALSE
+play-48,game-4,fresno-state,rice,3,3,4,3,7,29,-4,Sack,Mateo Sandoval sacked by Darius Fontenot for a loss of 4 yds,FALSE
+play-49,game-4,fresno-state,rice,3,4,4,4,11,33,0,Field Goal Missed,Fresno State 50 yd FG MISSED,FALSE
