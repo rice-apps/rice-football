@@ -5,12 +5,55 @@
   gap: var(--space-2);
 }
 
-/* Keep line breaks the submitter typed. */
-.questionText {
-  white-space: pre-wrap;
+/* Wide enough for typical names and titles, so they only break mid-word when they're very long. */
+.askedBy {
+  min-width: 9rem;
 }
 
-.saveWarning {
+/* Badges don't wrap by default; let long titles wrap instead of stretching the table. */
+.cellStack .titleBadge {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Keep line breaks people typed and wrap very long words. The minimum width keeps text
+   readable on narrow screens, where the table scrolls sideways instead. */
+.longText {
+  display: block;
+  min-width: 14rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+select.statusSelect {
+  min-width: 8.5rem;
+}
+
+/* Show the start of long answers; the full text is in the editor. */
+.answerPreview {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.noAnswer {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.saveNote {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+.saveError {
+  color: var(--color-danger);
+  font-size: var(--text-xs);
+}
+
+.notice {
   margin-bottom: var(--space-4);
 }
 
