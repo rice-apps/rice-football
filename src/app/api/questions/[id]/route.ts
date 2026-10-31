@@ -1,8 +1,7 @@
 import { updateQuestion } from "@/lib/questions/db";
 import { parseQuestionId, validateQuestionUpdate } from "@/lib/questions/validation";
 
-// PATCH updates a question's status and/or answer (used by the analyst page).
-// No authentication yet: anyone who can reach the app can call this (development demo).
+// PATCH updates a question's status and/or answer (used by the analyst page)
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const id = parseQuestionId((await params).id);

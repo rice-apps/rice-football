@@ -2,7 +2,6 @@ import { createQuestion, listQuestions } from "@/lib/questions/db";
 import { validateNewQuestion } from "@/lib/questions/validation";
 
 // GET lists every question (newest first); POST submits a new one.
-// No authentication yet: anyone who can reach the app can call these (development demo).
 
 export async function GET() {
   try {

@@ -12,7 +12,7 @@ type QuestionRow = {
   submitter_title: string;
   question: string;
   answer: string | null;
-  status: QuestionStatus; // the table's check constraint only allows these values
+  status: QuestionStatus;
   created_at: string;
   updated_at: string;
 };
