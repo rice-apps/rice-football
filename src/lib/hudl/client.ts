@@ -14,16 +14,25 @@ export class HudlHttpError extends Error {
 export type HudlResult<T> = { data: T; raw: string };
 
 async function readJson(response: Response): Promise<{ value: unknown; raw: string }> {
-  if (!response.body) throw new Error('Hudl returned an empty response');
+  if (!response.body) {
+    throw new Error('Hudl returned an empty response');
+  }
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];
   let size = 0;
   try {
     while (true) {
-      const { done, value } = await reader.read().catch(() => {
+      let chunk: ReadableStreamReadResult<Uint8Array>;
+      try {
+        chunk = await reader.read();
+      } catch {
         throw new Error('Hudl response body could not be read (network error or timeout)');
-      });
-      if (done) break;
+      }
+
+      const { done, value } = chunk;
+      if (done) {
+        break;
+      }
       size += value.byteLength;
       if (size > MAX_RESPONSE_BYTES) {
         await reader.cancel();
@@ -66,7 +75,9 @@ export async function hudlRequest<T>(
   variables: Record<string, unknown> = {},
 ): Promise<HudlResult<T>> {
   const key = process.env.HUDL_API_KEY?.trim();
-  if (!key) throw new Error('HUDL_API_KEY is required; load .env.local');
+  if (!key) {
+    throw new Error('HUDL_API_KEY is required; load .env.local');
+  }
   const response = await request(HUDL_API_URL, {
     method: 'POST',
     headers: {
@@ -92,8 +103,13 @@ export async function hudlRequest<T>(
 
 export async function downloadTracking(url: string): Promise<HudlResult<unknown>> {
   const parsed = new URL(url);
-  if (parsed.protocol !== 'https:' || parsed.hostname !== TRACKING_HOST ||
-      parsed.port || parsed.username || parsed.password) {
+  if (
+    parsed.protocol !== 'https:' ||
+    parsed.hostname !== TRACKING_HOST ||
+    parsed.port ||
+    parsed.username ||
+    parsed.password
+  ) {
     throw new Error('Unexpected Hudl tracking URL; verify the download host before using it');
   }
   // The signed URL authorizes this request. Do not forward the Hudl API key.
