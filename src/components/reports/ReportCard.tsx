@@ -59,6 +59,21 @@ export default function ReportCard({ report }: ReportCardProps) {
         <span>{categoryLabel(report.category)}</span>
         <span>Added {formatDate(report.createdAt)}</span>
       </div>
+      {report.fileUrl ? (
+        <div className={styles.actions}>
+          <a
+            className="ui-button ui-button--button2 ui-button--sm"
+            href={report.fileUrl}
+            {...(report.fileType.toLowerCase() === ".csv"
+              ? { download: true }
+              : { target: "_blank", rel: "noreferrer" })}
+          >
+            {report.fileType.toLowerCase() === ".csv"
+              ? "Download CSV"
+              : "Open report"}
+          </a>
+        </div>
+      ) : null}
     </Card>
   );
 }

@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navItems } from "./navItems";
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
     <header className="app-header">
       <div className="app-header__brand-wrap">
@@ -13,17 +18,21 @@ export default function Header() {
       </div>
 
       <nav className="app-header__nav" aria-label="Primary navigation">
-        {navItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className={`app-header__nav-link ${
-              item.label === "Home" ? "app-header__nav-link--active" : ""
-            }`}
-          >
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              aria-current={isActive ? "page" : undefined}
+              className={`app-header__nav-link ${
+                isActive ? "app-header__nav-link--active" : ""
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
     </header>
   );
