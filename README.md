@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. The app runs without credentials.
+Open http://localhost:3000. Most of the app runs without credentials; the Staff Q&A pages need Supabase (below).
 
 Development prototypes:
 
@@ -37,6 +37,10 @@ The following endpoints return arrays imported from `src/data/mock/`:
 - `GET /api/mock/players` — 25 players
 - `GET /api/mock/games` — 4 games
 - `GET /api/mock/plays` — 49 plays
+
+## Staff Q&A (Supabase)
+
+`/questions` (staff) and `/analyst/questions` (analysts) read and write questions through `/api/questions`, backed by a Supabase table. They need `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SECRET_KEY` in `.env.local` for read and write permissions. See [Supabase setup](docs/supabase.md). Note that nothing on the frontend currently links to these URLs, so for now until authentication is implemented they will need to be manually typed in.
 
 ## CFBD exploration
 

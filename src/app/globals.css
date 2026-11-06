@@ -186,7 +186,7 @@ code {
 }
 
 /* ---------------------------------------------------------------------------
- * UI: Form fields (Input / Select)
+ * UI: Form fields (Input / Select / Textarea)
  * ------------------------------------------------------------------------- */
 
 .ui-field {
@@ -248,6 +248,14 @@ code {
 .ui-input[type="file"] {
   height: auto;
   padding: var(--space-2);
+}
+
+/* Textarea: grows with its rows instead of the single-line input height. */
+.ui-input.ui-textarea {
+  height: auto;
+  padding: var(--space-2) var(--space-3);
+  line-height: 1.5;
+  resize: vertical;
 }
 
 /* ---------------------------------------------------------------------------
