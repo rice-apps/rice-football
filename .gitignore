@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Licensed Hudl responses can include temporary signed download URLs.
+/samples/hudl/raw/
+
 # vercel
 .vercel
 
