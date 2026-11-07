@@ -41,6 +41,7 @@ function isAllowedExtension(kind: ReportKind, extension: string): boolean {
 export default function ReportUploadForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
   const [category, setCategory] = useState<"" | ReportCategory>("");
   const [kind, setKind] = useState<"" | ReportKind>("");
   const [file, setFile] = useState<File | null>(null);
@@ -80,6 +81,10 @@ export default function ReportUploadForm() {
       category: category as ReportCategory,
       kind: kind as ReportKind,
       fileType: fileExtension(file!.name),
+      tags: tagsInput
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean),
       createdAt: new Date().toISOString(),
     });
   }
@@ -87,6 +92,7 @@ export default function ReportUploadForm() {
   function resetForm() {
     setName("");
     setDescription("");
+    setTagsInput("");
     setCategory("");
     setKind("");
     setFile(null);
@@ -151,6 +157,14 @@ export default function ReportUploadForm() {
             onChange={(event) => setDescription(event.target.value)}
           />
         </div>
+
+        <Input
+          label="Tags"
+          placeholder="e.g. red zone, play calling"
+          value={tagsInput}
+          onChange={(event) => setTagsInput(event.target.value)}
+          hint="Separate tags with commas."
+        />
 
         <Select
           label="Category"
