@@ -59,6 +59,15 @@ export default function ReportCard({ report }: ReportCardProps) {
         <span>{categoryLabel(report.category)}</span>
         <span>Added {formatDate(report.createdAt)}</span>
       </div>
+      {report.tags.length > 0 ? (
+        <div className={styles.tags}>
+          {report.tags.map((tag) => (
+            <Badge key={tag.toLowerCase()} variant="badge3">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
       {report.fileUrl ? (
         <div className={styles.actions}>
           <a
