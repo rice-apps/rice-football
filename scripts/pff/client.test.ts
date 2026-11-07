@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { afterEach, beforeEach, mock, test } from "node:test";
 import { authenticatePff, createPffClient } from "../../src/lib/pff/client";
 
@@ -191,3 +193,18 @@ async function mockFranchiseClient(franchiseResponse: () => Response) {
   });
   return createPffClient();
 }
+
+test("the sample command exits with a readable error when the key is missing", () => {
+  const root = fileURLToPath(new URL("../../", import.meta.url));
+  const result = spawnSync(process.execPath, ["--import", "tsx", "scripts/pff/fetch-franchises.ts"], {
+    cwd: root,
+    env: { ...process.env, PFF_API_KEY: "" },
+    encoding: "utf8",
+    timeout: 10_000,
+  });
+
+  assert.ifError(result.error);
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(result.stderr.trim(), "PFF_API_KEY is missing. Set it in .env.local.");
+});
