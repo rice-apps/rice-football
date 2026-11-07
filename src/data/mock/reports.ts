@@ -12,6 +12,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".pdf",
     fileUrl: "/reports/red-zone-efficiency.pdf",
+    tags: ["red zone", "play calling", "scoring"],
     createdAt: "2026-10-20T14:30:00Z",
   },
   {
@@ -22,6 +23,7 @@ export const reports: Report[] = [
     category: "offense",
     kind: "runnable",
     fileType: ".R",
+    tags: ["explosive plays", "formations", "weekly"],
     createdAt: "2026-10-18T09:15:00Z",
   },
   {
@@ -33,6 +35,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".html",
     fileUrl: "/reports/third-down-tendencies.html",
+    tags: ["third down", "tendencies", "play calling"],
     createdAt: "2026-10-12T16:45:00Z",
   },
   {
@@ -44,6 +47,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".html",
     fileUrl: "/reports/opponent-pressure-rates.html",
+    tags: ["pass rush", "blitz", "scouting"],
     createdAt: "2026-10-19T11:00:00Z",
   },
   {
@@ -54,6 +58,7 @@ export const reports: Report[] = [
     category: "defense",
     kind: "runnable",
     fileType: ".py",
+    tags: ["coverage", "secondary", "tendencies"],
     createdAt: "2026-10-15T13:20:00Z",
   },
   {
@@ -65,6 +70,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".csv",
     fileUrl: "/reports/tackling-efficiency.csv",
+    tags: ["tackling", "film review", "weekly"],
     createdAt: "2026-10-08T10:05:00Z",
   },
   {
@@ -76,6 +82,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".csv",
     fileUrl: "/reports/special-teams-field-position.csv",
+    tags: ["punting", "field position", "hidden yards"],
     createdAt: "2026-10-17T15:40:00Z",
   },
   {
@@ -86,6 +93,7 @@ export const reports: Report[] = [
     category: "special-teams",
     kind: "runnable",
     fileType: ".R",
+    tags: ["kickoff", "returns", "modeling"],
     createdAt: "2026-10-10T08:50:00Z",
   },
   {
@@ -97,6 +105,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".csv",
     fileUrl: "/reports/transfer-portal-watchlist.csv",
+    tags: ["transfer portal", "recruiting", "scouting"],
     createdAt: "2026-10-21T17:10:00Z",
   },
   {
@@ -107,6 +116,7 @@ export const reports: Report[] = [
     category: "player-personnel",
     kind: "runnable",
     fileType: ".py",
+    tags: ["snap counts", "rotation", "weekly"],
     createdAt: "2026-10-14T12:25:00Z",
   },
   {
@@ -118,6 +128,7 @@ export const reports: Report[] = [
     kind: "static",
     fileType: ".html",
     fileUrl: "/reports/depth-chart-scenarios.html",
+    tags: ["depth chart", "injuries", "roster"],
     createdAt: "2026-10-06T14:00:00Z",
   },
 ];
