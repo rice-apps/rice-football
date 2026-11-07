@@ -7,6 +7,7 @@ import ReportCategoryTabs, {
   type CategoryFilter,
 } from "@/components/reports/ReportCategoryTabs";
 import { matchesReportQuery } from "@/components/reports/searchReports";
+import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { reports } from "@/data/mock/reports";
 
@@ -19,6 +20,14 @@ export default function ReportsPage() {
       (category === "all" || report.category === category) &&
       matchesReportQuery(report, query),
   );
+
+  const trimmedQuery = query.trim();
+  const hasActiveFilters = trimmedQuery !== "" || category !== "all";
+
+  function resetFilters() {
+    setQuery("");
+    setCategory("all");
+  }
 
   return (
     <AppShell
@@ -35,6 +44,14 @@ export default function ReportsPage() {
         onChange={(event) => setQuery(event.target.value)}
       />
 
+      {hasActiveFilters && (
+        <div className="inline-actions">
+          <Button variant="button2" size="sm" onClick={resetFilters}>
+            Clear search and filters
+          </Button>
+        </div>
+      )}
+
       {visibleReports.length > 0 ? (
         <div className="page-grid">
           {visibleReports.map((report) => (
@@ -43,7 +60,11 @@ export default function ReportsPage() {
         </div>
       ) : (
         <p className="ui-field__hint" role="status">
-          No reports in this category yet.
+          {trimmedQuery
+            ? category === "all"
+              ? `No reports match "${trimmedQuery}".`
+              : `No reports match "${trimmedQuery}" in this category.`
+            : "No reports in this category yet."}
         </p>
       )}
     </AppShell>
