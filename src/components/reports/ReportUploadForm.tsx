@@ -8,6 +8,13 @@ import Card from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import {
+  MAX_TAG_LENGTH,
+  MAX_TAGS,
+  getTagsError,
+  parseTags,
+} from "@/lib/reports/tags";
+import { fileExtension, isAllowedExtension } from "@/lib/reports/validation";
+import {
   ALLOWED_EXTENSIONS,
   REPORT_CATEGORIES,
   type Report,
@@ -20,9 +27,6 @@ const KIND_OPTIONS = [
   { value: "runnable", label: "Runnable script (R, Python)" },
 ];
 
-const MAX_TAGS = 8;
-const MAX_TAG_LENGTH = 30;
-
 type FormErrors = {
   name?: string;
   category?: string;
@@ -30,32 +34,6 @@ type FormErrors = {
   file?: string;
   tags?: string;
 };
-
-function fileExtension(fileName: string): string {
-  const dotIndex = fileName.lastIndexOf(".");
-  return dotIndex === -1 ? "" : fileName.slice(dotIndex);
-}
-
-function isAllowedExtension(kind: ReportKind, extension: string): boolean {
-  return ALLOWED_EXTENSIONS[kind].some(
-    (allowed) => allowed.toLowerCase() === extension.toLowerCase(),
-  );
-}
-
-// Trims each comma-separated tag, drops empties, and deduplicates
-// case-insensitively, keeping the first occurrence's casing.
-function parseTags(input: string): string[] {
-  const seen = new Set<string>();
-  const tags: string[] = [];
-  for (const raw of input.split(",")) {
-    const tag = raw.trim();
-    const key = tag.toLowerCase();
-    if (!tag || seen.has(key)) continue;
-    seen.add(key);
-    tags.push(tag);
-  }
-  return tags;
-}
 
 export default function ReportUploadForm() {
   const [name, setName] = useState("");
@@ -83,14 +61,7 @@ export default function ReportUploadForm() {
     if (!name.trim()) nextErrors.name = "Report name is required.";
     if (!category) nextErrors.category = "Choose a category.";
     if (!kind) nextErrors.kind = "Choose a report kind.";
-    if (tags.length > MAX_TAGS) {
-      nextErrors.tags = `Use at most ${MAX_TAGS} tags.`;
-    } else {
-      const tooLong = tags.find((tag) => tag.length > MAX_TAG_LENGTH);
-      if (tooLong) {
-        nextErrors.tags = `"${tooLong}" is too long — tags can be at most ${MAX_TAG_LENGTH} characters.`;
-      }
-    }
+    nextErrors.tags = getTagsError(tags);
     if (!file) {
       nextErrors.file = "Choose a file.";
     } else if (kind && !isAllowedExtension(kind, fileExtension(file.name))) {
