@@ -5,7 +5,7 @@ The Staff Q&A pages store questions in the `public.questions` Supabase table:
 - `/questions`: staff submit questions and see every question's status and answer.
 - `/analyst/questions`: analysts change statuses and save answers.
 
-The browser calls our API routes (`/api/questions`). Only the server talks to Supabase, using `SUPABASE_SECRET_KEY`; POST and PATCH request bodies are validated. The API has no authentication or authorization yet; anyone who can reach these routes may submit questions, read all questions, or update them. Use only fictional/test data in the approved development project. This is not a production-secure workflow.
+The browser calls our API routes (`/api/questions`). Only the server talks to Supabase, using `SUPABASE_SECRET_KEY`; POST and PATCH request bodies are validated. Each API request verifies the Supabase session and applies the Q&A role rules below before using this secret key. Use only fictional/test data in the approved development project. This narrow authorization layer is not a general production access-control system.
 
 ## Environment variables
 
@@ -52,18 +52,34 @@ The setup file does not establish authentication, authorization, production-safe
 
 ## API
 
+### Q&A permissions
+
+The account level is read from trusted Supabase `app_metadata.access_level`, not from a request body or browser-controlled profile field.
+
+| Account level | Read questions / submit | Answer / change status |
+| --- | --- | --- |
+| Coach (`coach`) | Yes | No |
+| Front office (`front_office`) | Yes | No |
+| Full analyst (`analyst_full`) | Yes | Yes |
+| Limited analyst (`analyst_limited`) | Yes | Yes |
+| Signed out or unknown level | No | No |
+
+`src/lib/auth/authorization.ts` defines the Q&A allowlists and `authorizeAccess()`. Protected API handlers and the server-side `/analyst/questions` layout call `getCurrentUser()` and apply the appropriate allowlist. Do not rely on hidden controls or proxy session refresh for authorization. The name and role/title entered with a question remain manually entered Q&A metadata; they are not derived from or asserted as the authenticated shared account identity.
+
 | Request | Body | Response |
 | --- | --- | --- |
 | `GET /api/questions` | none | `{ questions }`, newest first |
 | `POST /api/questions` | `{ submittedBy, submitterTitle, text }` | `201 { question }`, always `open` with no answer |
 | `PATCH /api/questions/[id]` | `{ status?, answer? }`, at least one | `{ question }`, or `404` if the id doesn't exist |
 
-Invalid requests get `400 { error, fieldErrors }`. Database errors get `500 { error }`, with details in the server log.
+Requests without a valid session get `401 { error }`. A signed-in account without the required Q&A access level gets `403 { error }`; this includes unknown access levels and staff attempting to update a question. If the session cannot be verified because the auth service is unavailable, the API returns `503 { error }` and does not access the questions database. Invalid authorized requests get `400 { error, fieldErrors }`; missing question IDs on PATCH get `404 { error }`. Database errors currently get `500 { error }`, with details in the server log.
+
+The analyst questions page performs its own server-side analyst check. Signed-out users are redirected to `/login`; staff or unavailable-session requests see an access/error state instead of the analyst interface. `src/proxy.ts` refreshes sessions for the Q&A pages and API routes, but each server page/API handler remains responsible for authorization.
 
 The application currently enforces maximum lengths of 100 characters for submitter name and title, and 2,000 characters for question and answer. New questions are created with status `open` and no answer. Saving a non-empty analyst answer also sets status to `answered`; clearing an answer leaves status unchanged.
 
 ## Manual workflow check
 
-**Verified 2026-11-07 against the approved development project** using the local app and fictional data. A question submitted from `/questions` appeared in `/analyst/questions`; the analyst changed its status, saved an answer, edited the answer, and refreshed. The final `answered` status and edited answer remained visible after refresh in the analyst page and in a separate isolated browser context on `/questions`. This confirms persistence through the shared Supabase-backed API. The isolated context used the same browser engine, not a separately installed browser product.
+**Verified 2026-11-07 against the approved development project** using the local app and fictional data, before Q&A authorization was added. A question submitted from `/questions` appeared in `/analyst/questions`; the analyst changed its status, saved an answer, edited the answer, and refreshed. The final `answered` status and edited answer remained visible after refresh in the analyst page and in a separate isolated browser context on `/questions`. This confirms persistence through the shared Supabase-backed API. The isolated context used the same browser engine, not a separately installed browser product. It does not verify the role checks described above.
 
 Loading, empty-list, and saved-feedback states were also checked. Mocked API responses exercised the staff load-error/retry state and analyst status-save and answer-save error feedback in isolated browser contexts; these checks did not make database writes. `npm run lint` and `npm run build` both passed. No real configuration or database-permission failure was induced.
