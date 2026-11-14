@@ -20,11 +20,15 @@ const KIND_OPTIONS = [
   { value: "runnable", label: "Runnable script (R, Python)" },
 ];
 
+const MAX_TAGS = 8;
+const MAX_TAG_LENGTH = 30;
+
 type FormErrors = {
   name?: string;
   category?: string;
   kind?: string;
   file?: string;
+  tags?: string;
 };
 
 function fileExtension(fileName: string): string {
@@ -38,9 +42,25 @@ function isAllowedExtension(kind: ReportKind, extension: string): boolean {
   );
 }
 
+// Trims each comma-separated tag, drops empties, and deduplicates
+// case-insensitively, keeping the first occurrence's casing.
+function parseTags(input: string): string[] {
+  const seen = new Set<string>();
+  const tags: string[] = [];
+  for (const raw of input.split(",")) {
+    const tag = raw.trim();
+    const key = tag.toLowerCase();
+    if (!tag || seen.has(key)) continue;
+    seen.add(key);
+    tags.push(tag);
+  }
+  return tags;
+}
+
 export default function ReportUploadForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
   const [category, setCategory] = useState<"" | ReportCategory>("");
   const [kind, setKind] = useState<"" | ReportKind>("");
   const [file, setFile] = useState<File | null>(null);
@@ -57,10 +77,20 @@ export default function ReportUploadForm() {
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const tags = parseTags(tagsInput);
+
     const nextErrors: FormErrors = {};
     if (!name.trim()) nextErrors.name = "Report name is required.";
     if (!category) nextErrors.category = "Choose a category.";
     if (!kind) nextErrors.kind = "Choose a report kind.";
+    if (tags.length > MAX_TAGS) {
+      nextErrors.tags = `Use at most ${MAX_TAGS} tags.`;
+    } else {
+      const tooLong = tags.find((tag) => tag.length > MAX_TAG_LENGTH);
+      if (tooLong) {
+        nextErrors.tags = `"${tooLong}" is too long — tags can be at most ${MAX_TAG_LENGTH} characters.`;
+      }
+    }
     if (!file) {
       nextErrors.file = "Choose a file.";
     } else if (kind && !isAllowedExtension(kind, fileExtension(file.name))) {
@@ -80,6 +110,7 @@ export default function ReportUploadForm() {
       category: category as ReportCategory,
       kind: kind as ReportKind,
       fileType: fileExtension(file!.name),
+      tags,
       createdAt: new Date().toISOString(),
     });
   }
@@ -87,6 +118,7 @@ export default function ReportUploadForm() {
   function resetForm() {
     setName("");
     setDescription("");
+    setTagsInput("");
     setCategory("");
     setKind("");
     setFile(null);
@@ -151,6 +183,15 @@ export default function ReportUploadForm() {
             onChange={(event) => setDescription(event.target.value)}
           />
         </div>
+
+        <Input
+          label="Tags"
+          placeholder="e.g. red zone, play calling"
+          value={tagsInput}
+          onChange={(event) => setTagsInput(event.target.value)}
+          hint={`Separate tags with commas. Up to ${MAX_TAGS} tags, ${MAX_TAG_LENGTH} characters each.`}
+          error={errors.tags}
+        />
 
         <Select
           label="Category"
