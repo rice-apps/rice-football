@@ -32,6 +32,59 @@ Optional environment overrides (no additional credentials):
 Season IDs are vendor IDs, not calendar years. `seasons(competitionId: 1446)`
 returned `1085` for 2025/2026 and `1118` for 2026/2027. Account coverage may differ.
 
+## Import one game and roster into Supabase
+
+Stores one explicit game in `hudl_games` and its scoped roster in `hudl_game_roster`
+(mappings: `docs/storage-contract.md` section 3). Needs `HUDL_API_KEY`,
+`NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SECRET_KEY` in `.env.local`.
+
+```bash
+npx tsx --env-file=.env.local scripts/hudl/import-game.ts \
+  --competition-id 1446 --season-id 1052 --team-id 1001249 --game-id 1504854
+```
+
+All four IDs are required. The command pages the scoped games query (25 per page) and
+fails unless the game is in that scope with the team as home or away. It then pages
+the players query with the same scope plus `gameIds`. Pages advance by the number of
+items returned until `totalCount`. An early empty page, a changed `totalCount`, a
+failed page, invalid fields or a duplicate player ID fails the run before any write.
+It then upserts the game, then the roster, and reads back the stored roster count.
+
+Vendor `player.team` is kept as `reported_team_id/name`, null when the vendor
+returns null. The query scope is `requested_team_id`. The output reports
+disagreements; they are kept, not discarded. Unknown numbers and positions stay null.
+
+Reruns replace the selected values for the same keys and never add duplicates or
+delete rows. The game and roster are separate writes. If the roster write fails,
+the game row may already be stored. The command exits nonzero; rerun it.
+
+On 14 November 2026 this stored 1 game (`08/31/2024 Sam Houston State Bearkats -
+Rice Owls`, vendor date `2024-08-31`) and 59 roster rows. All 59 reported Rice as
+their team. A rerun left 59 rows, and an invalid key or out-of-scope game ID exited 1
+without changing stored rows. The count is a snapshot, not an expected constant.
+
+Verify in the Supabase SQL editor:
+
+```sql
+select game_id, name, vendor_date, home_team_name, away_team_name, fetched_at
+from hudl_games where game_id = 1504854;
+
+-- Should match the import's roster count, with no repeated player_id.
+select count(*) as rows, count(distinct player_id) as players
+from hudl_game_roster
+where competition_id = 1446 and season_id = 1052
+  and game_id = 1504854 and requested_team_id = 1001249;
+
+-- Every roster row resolves to its stored game.
+select count(*) from hudl_game_roster r
+left join hudl_games g using (competition_id, season_id, game_id)
+where g.game_id is null;
+```
+
+Tests (no network or database): `npx tsx --test scripts/hudl/import.test.ts`.
+Not included: tracking downloads, signed URLs, season-wide imports, scheduling and
+player matching.
+
 ## Authentication and queries
 
 Send GraphQL JSON via `POST https://amf-iq-api.statsbomb.com/api` with
