@@ -3,6 +3,7 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "Reports", href: "/reports" },
   { label: "Questions", href: "/questions" },
+  { label: "News", href: "/news" },
   { label: "Account", href: "/account" },
   { label: "Data Dictionary", href: "/analyst/data-dictionary" },
 ];

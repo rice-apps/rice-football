@@ -3,6 +3,7 @@ import ConferenceStandings from "@/components/home/ConferenceStandings";
 import RiceSchedule from "@/components/home/RiceSchedule";
 import RiceSummary from "@/components/home/RiceSummary";
 import AppShell from "@/components/layout/AppShell";
+import NextOpponentNews from "@/components/news/NextOpponentNews";
 import Card from "@/components/ui/Card";
 import { currentSeason, getHomeData } from "@/lib/cfbd/home";
 
@@ -32,6 +33,7 @@ async function HomeSections() {
   return (
     <>
       <RiceSummary schedule={schedule.data} source={schedule.source} />
+      <NextOpponentNews schedule={schedule.data} source={schedule.source} />
       <ConferenceStandings conference={CONFERENCE_NAME} standings={standings.data} source={standings.source} />
       <RiceSchedule season={season} schedule={schedule.data} source={schedule.source} />
     </>
