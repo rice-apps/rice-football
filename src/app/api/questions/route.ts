@@ -1,9 +1,16 @@
 import { createQuestion, listQuestions } from "@/lib/questions/db";
+import { authorizeAccess, Q_AND_A_READ_ACCESS_LEVELS } from "@/lib/auth/authorization";
+import { getCurrentUser } from "@/lib/auth/session";
 import { validateNewQuestion } from "@/lib/questions/validation";
 
 // GET lists every question (newest first); POST submits a new one.
 
 export async function GET() {
+  const authorization = authorizeAccess(await getCurrentUser(), Q_AND_A_READ_ACCESS_LEVELS);
+  if (!authorization.allowed) {
+    return Response.json({ error: authorization.message }, { status: authorization.status });
+  }
+
   try {
     return Response.json({ questions: await listQuestions() });
   } catch (error) {
@@ -13,6 +20,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const authorization = authorizeAccess(await getCurrentUser(), Q_AND_A_READ_ACCESS_LEVELS);
+  if (!authorization.allowed) {
+    return Response.json({ error: authorization.message }, { status: authorization.status });
+  }
+
   // Invalid JSON becomes undefined, which the validator rejects.
   const body: unknown = await request.json().catch(() => undefined);
   const result = validateNewQuestion(body);

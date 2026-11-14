@@ -1,9 +1,16 @@
 import { updateQuestion } from "@/lib/questions/db";
+import { authorizeAccess, Q_AND_A_ANSWER_ACCESS_LEVELS } from "@/lib/auth/authorization";
+import { getCurrentUser } from "@/lib/auth/session";
 import { parseQuestionId, validateQuestionUpdate } from "@/lib/questions/validation";
 
 // PATCH updates a question's status and/or answer (used by the analyst page)
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const authorization = authorizeAccess(await getCurrentUser(), Q_AND_A_ANSWER_ACCESS_LEVELS);
+  if (!authorization.allowed) {
+    return Response.json({ error: authorization.message }, { status: authorization.status });
+  }
+
   const id = parseQuestionId((await params).id);
   if (id === null) {
     return Response.json({ error: "Question id must be a positive whole number." }, { status: 400 });
