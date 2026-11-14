@@ -3,17 +3,30 @@
 import { useState, type ChangeEvent, type SubmitEvent } from "react";
 import Link from "next/link";
 import ReportCard from "@/components/reports/ReportCard";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
+import { Textarea } from "@/components/ui/Textarea";
+import {
+  ReportApiError,
+  getErrorMessage,
+  submitReport,
+} from "@/lib/reports/api";
 import {
   MAX_TAG_LENGTH,
   MAX_TAGS,
   getTagsError,
   parseTags,
 } from "@/lib/reports/tags";
-import { fileExtension, isAllowedExtension } from "@/lib/reports/validation";
+import {
+  REPORT_FIELDS,
+  fileExtension,
+  isAllowedExtension,
+  normalizeExtension,
+  type ReportFieldErrors,
+} from "@/lib/reports/validation";
 import {
   ALLOWED_EXTENSIONS,
   REPORT_CATEGORIES,
@@ -29,11 +42,24 @@ const KIND_OPTIONS = [
 
 type FormErrors = {
   name?: string;
+  description?: string;
   category?: string;
   kind?: string;
   file?: string;
   tags?: string;
 };
+
+// Field errors returned by the API, placed on the matching form fields.
+function toFormErrors(fieldErrors: ReportFieldErrors): FormErrors {
+  return {
+    name: fieldErrors.name,
+    description: fieldErrors.description,
+    category: fieldErrors.category,
+    kind: fieldErrors.kind,
+    file: fieldErrors.fileType,
+    tags: fieldErrors.tags,
+  };
+}
 
 export default function ReportUploadForm() {
   const [name, setName] = useState("");
@@ -43,6 +69,9 @@ export default function ReportUploadForm() {
   const [kind, setKind] = useState<"" | ReportKind>("");
   const [file, setFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  // The record as saved by the database, shown after a successful submit.
   const [submitted, setSubmitted] = useState<Report | null>(null);
   // Bumped on reset to remount the form, clearing the uncontrolled file input.
   const [formKey, setFormKey] = useState(0);
@@ -52,13 +81,22 @@ export default function ReportUploadForm() {
     setErrors((previous) => ({ ...previous, file: undefined }));
   }
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (saving) return;
+    setSaveError(null);
 
     const tags = parseTags(tagsInput);
 
     const nextErrors: FormErrors = {};
-    if (!name.trim()) nextErrors.name = "Report name is required.";
+    if (!name.trim()) {
+      nextErrors.name = "Report name is required.";
+    } else if (name.trim().length > REPORT_FIELDS.name.maxLength) {
+      nextErrors.name = `Report name must be ${REPORT_FIELDS.name.maxLength} characters or fewer.`;
+    }
+    if (description.trim().length > REPORT_FIELDS.description.maxLength) {
+      nextErrors.description = `Description must be ${REPORT_FIELDS.description.maxLength} characters or fewer.`;
+    }
     if (!category) nextErrors.category = "Choose a category.";
     if (!kind) nextErrors.kind = "Choose a report kind.";
     nextErrors.tags = getTagsError(tags);
@@ -70,20 +108,31 @@ export default function ReportUploadForm() {
     }
 
     setErrors(nextErrors);
-    if (Object.values(nextErrors).some(Boolean)) return;
+    if (Object.values(nextErrors).some(Boolean) || !category || !kind || !file) {
+      return;
+    }
 
-    // Prototype: only metadata is captured, locally. The file itself is not
-    // read, uploaded, or stored anywhere.
-    setSubmitted({
-      id: `report-${Date.now()}`,
-      name: name.trim(),
-      description: description.trim(),
-      category: category as ReportCategory,
-      kind: kind as ReportKind,
-      fileType: fileExtension(file!.name),
-      tags,
-      createdAt: new Date().toISOString(),
-    });
+    // Only metadata is sent. The selected file supplies the file type and is
+    // never read, uploaded, or stored. The server validates everything again.
+    setSaving(true);
+    try {
+      const saved = await submitReport({
+        name: name.trim(),
+        description: description.trim(),
+        category,
+        kind,
+        fileType: normalizeExtension(fileExtension(file.name)),
+        tags,
+      });
+      setSubmitted(saved);
+    } catch (error) {
+      if (error instanceof ReportApiError) {
+        setErrors(toFormErrors(error.fieldErrors));
+      }
+      setSaveError(getErrorMessage(error));
+    } finally {
+      setSaving(false);
+    }
   }
 
   function resetForm() {
@@ -94,6 +143,7 @@ export default function ReportUploadForm() {
     setKind("");
     setFile(null);
     setErrors({});
+    setSaveError(null);
     setSubmitted(null);
     setFormKey((key) => key + 1);
   }
@@ -101,14 +151,14 @@ export default function ReportUploadForm() {
   if (submitted) {
     return (
       <Card
-        title="Report uploaded"
-        subtitle="Metadata captured locally — this prototype does not store files, so the report will not persist after a refresh."
+        title="Report details saved"
+        subtitle="These details are saved and will appear in the report library. The file you selected was not uploaded or stored, so this report has no file to open yet."
       >
         <div className="stacked-form">
           <ReportCard report={submitted} />
           <div className="inline-actions">
             <Button variant="button2" onClick={resetForm}>
-              Upload another
+              Add another
             </Button>
             <Link
               href="/analyst/reports"
@@ -125,7 +175,7 @@ export default function ReportUploadForm() {
   return (
     <Card
       title="Report details"
-      subtitle="Static reports are finished files; runnable scripts can later be rerun against new data."
+      subtitle="Saves the report's details to the library. Files are not stored yet: the file you choose only sets the file type."
     >
       <form
         key={formKey}
@@ -138,22 +188,19 @@ export default function ReportUploadForm() {
           placeholder="e.g. Red Zone Efficiency Review"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          maxLength={REPORT_FIELDS.name.maxLength}
           error={errors.name}
         />
 
-        <div className="ui-field">
-          <label htmlFor="report-description" className="ui-field__label">
-            Description
-          </label>
-          <textarea
-            id="report-description"
-            className="ui-input"
-            rows={3}
-            placeholder="What does this report cover, and for whom?"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </div>
+        <Textarea
+          label="Description"
+          rows={3}
+          placeholder="What does this report cover, and for whom?"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+          maxLength={REPORT_FIELDS.description.maxLength}
+          error={errors.description}
+        />
 
         <Input
           label="Tags"
@@ -194,12 +241,20 @@ export default function ReportUploadForm() {
           type="file"
           accept={kind ? ALLOWED_EXTENSIONS[kind].join(",") : undefined}
           onChange={handleFileChange}
+          hint="Used only to record the file type. The file itself is not uploaded or stored yet."
           error={errors.file}
         />
 
+        {saveError && (
+          <div className="inline-actions" role="alert">
+            <Badge variant="badge6">Not saved</Badge>
+            <span>{saveError}</span>
+          </div>
+        )}
+
         <div className="inline-actions">
-          <Button type="submit" variant="button1">
-            Submit Report
+          <Button type="submit" variant="button1" disabled={saving}>
+            {saving ? "Saving…" : "Submit Report"}
           </Button>
         </div>
       </form>
