@@ -1,7 +1,7 @@
 # PFF client and franchise import
 
-PFF API access was verified live on 7 November 2026. Database imports and lookups
-have only been tested offline.
+PFF API access, development database imports and lookups were verified live on
+14 November 2026. Verification scope is recorded under Checks.
 
 ## Setup
 
@@ -125,9 +125,16 @@ npx tsx --test scripts/pff/*.test.ts
 ```
 
 All 34 offline tests passed on 14 November using fictional responses without
-credentials. Hosted import/rerun, count headers, permissions and Rice readback
-remain unverified. Additional endpoints, scheduling and cross-vendor matching
-are out of scope.
+credentials. Development integration checks that day confirmed:
+
+- First import: 504 unique IDs and one shared `fetched_at`.
+- Second import: the same 504 IDs, no duplicates and a refreshed timestamp.
+- Database-only case-insensitive Rice search and ID lookup returned Rice Owls, ID 275.
+- Literal-character searches worked; empty/duplicate inputs made no requests and preserved stored data.
+- Exact count headers worked. An unauthenticated table read returned HTTP 401;
+  RLS/catalog settings were not introspected.
+
+Additional endpoints, scheduling and cross-vendor matching are out of scope.
 
 Reference: [PFF master data documentation](https://api.profootballfocus.com/doc/master-data)
 (requires sign-in). Field structure above was checked against live responses.
