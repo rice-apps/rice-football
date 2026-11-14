@@ -57,3 +57,5 @@ npx tsx --env-file=.env.local scripts/cfbd/fetchPlays.ts
 ```
 
 Scripts make real API requests and overwrite the corresponding sample files with up to 25 records. Never commit credentials or populated `.env` files. See [CFBD notes](samples/cfbd/README.md) for sample queries and field details.
+
+To import Rice's schedule and a conference's standings into Supabase, see [CFBD import](docs/cfbd.md).
