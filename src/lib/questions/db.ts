@@ -7,7 +7,7 @@ import type { Question, QuestionStatus } from "@/types/question";
 // which bypasses Row Level Security. The table has RLS on with no policies, so the publishable key can't read or write it.
 
 type QuestionRow = {
-  id: number;
+  id: string;
   submitter_name: string;
   submitter_title: string;
   question: string;
@@ -66,7 +66,7 @@ export async function createQuestion(question: NewQuestion): Promise<Question> {
 }
 
 /** Updates a question's status and/or answer. Returns null if no question has this id. */
-export async function updateQuestion(id: number, update: QuestionUpdate): Promise<Question | null> {
+export async function updateQuestion(id: string, update: QuestionUpdate): Promise<Question | null> {
   const { data, error } = await getSupabase()
     .from("questions")
     // Undefined fields are left out of the request, so only the provided fields change.

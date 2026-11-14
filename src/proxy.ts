@@ -38,8 +38,8 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
-// Only the pages that use the session. Other routes, and the Server Actions on them, skip this.
-// A later change that protects more pages must add them here so their sessions stay fresh.
+// Only pages and APIs that use the session. Keep this list aligned with protected routes so their
+// sessions stay fresh; authorization is still checked by each page and API handler itself.
 export const config = {
-  matcher: ["/login", "/account"],
+  matcher: ["/login", "/account", "/questions/:path*", "/analyst/questions/:path*", "/api/questions/:path*"],
 };
