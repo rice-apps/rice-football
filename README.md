@@ -42,6 +42,10 @@ The following endpoints return arrays imported from `src/data/mock/`:
 
 `/questions` (staff) and `/analyst/questions` (analysts) read and write questions through `/api/questions`, backed by a Supabase table. They need `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SECRET_KEY` in `.env.local` for read and write permissions. See [Supabase setup](docs/supabase.md). Note that nothing on the frontend currently links to these URLs, so for now until authentication is implemented they will need to be manually typed in.
 
+## Login (Supabase Auth)
+
+`/login` and `/account` use Supabase Auth with shared accounts created by the lead. They need `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Logging in doesn't protect any other page yet. See [Authentication](docs/auth.md).
+
 ## CFBD exploration
 
 CFBD is independent of application startup and builds. To run a script, copy `.env.example` to `.env.local`, set `CFBD_API_KEY` locally, then run:
