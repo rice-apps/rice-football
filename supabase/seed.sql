@@ -1,8 +1,13 @@
 -- TEMPORARY: sample questions for the Staff Q&A development demo. Names are fictional.
 -- Delete this file once real staff questions are being collected.
+-- Optional only: this seed is not required for schema setup.
+-- Run only against an approved development database with fictional/test data.
+-- Running this more than once inserts duplicate sample questions.
 --
 -- Run in the Supabase SQL editor. To reset the demo, uncomment the truncate line first.
 -- It deletes EVERY question in the table.
+-- Never uncomment that line in a database containing questions you need to keep.
+-- Do not use a reset to set up or verify the Q&A database.
 
 -- truncate table public.questions restart identity;
 
