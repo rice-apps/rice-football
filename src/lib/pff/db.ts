@@ -135,3 +135,76 @@ export async function searchPffFranchises(name: string): Promise<PffFranchise[]>
 
   return data.map(toFranchise);
 }
+
+export async function upsertPffFranchises(franchises: PffFranchise[]): Promise<number> {
+  if (!Array.isArray(franchises) || franchises.length === 0) {
+    throw new Error("PFF franchise import needs at least one franchise. No rows were written.");
+  }
+
+  if (!franchises.every(isFranchise)) {
+    throw new Error("PFF franchise import found an invalid franchise record. No rows were written.");
+  }
+
+  const seenIds = new Set<number>();
+  for (const franchise of franchises) {
+    if (seenIds.has(franchise.id)) {
+      throw new Error(`PFF franchise import found duplicate franchise ID ${franchise.id}. No rows were written.`);
+    }
+    seenIds.add(franchise.id);
+  }
+
+  const supabase = createSupabase();
+
+  let countResult;
+  try {
+    countResult = await supabase
+      .from("pff_franchises")
+      .select("id", { count: "exact", head: true })
+      .abortSignal(AbortSignal.timeout(30_000))
+      .retry(false);
+  } catch {
+    throw new Error("PFF franchise row count failed (network error or timeout). No rows were written.");
+  }
+
+  if (countResult.error) {
+    throw new Error(`${failureMessage("PFF franchise row count", countResult.status)} No rows were written.`);
+  }
+
+  const storedCount = countResult.count;
+
+  if (storedCount === null || !Number.isSafeInteger(storedCount) || storedCount < 0) {
+    throw new Error("PFF franchise row count returned an unexpected response. No rows were written.");
+  }
+
+  // Catches a shortened vendor response on rerun; it does not prove the first import was complete.
+  if (franchises.length < storedCount) {
+    throw new Error(
+      `PFF returned ${franchises.length} franchises but pff_franchises already has ${storedCount}. No rows were written.`,
+    );
+  }
+
+  const fetchedAt = new Date().toISOString();
+  const rows = franchises.map((franchise) => ({ ...toFranchise(franchise), fetched_at: fetchedAt }));
+  const mayHaveWritten = "Some rows may already have been written; rerunning the import is safe.";
+
+  let upsertResult;
+  try {
+    upsertResult = await supabase
+      .from("pff_franchises")
+      .upsert(rows, { onConflict: "id", count: "exact" })
+      .abortSignal(AbortSignal.timeout(30_000))
+      .retry(false);
+  } catch {
+    throw new Error(`PFF franchise upsert failed (network error or timeout). ${mayHaveWritten}`);
+  }
+
+  if (upsertResult.error) {
+    throw new Error(`${failureMessage("PFF franchise upsert", upsertResult.status)} ${mayHaveWritten}`);
+  }
+
+  if (upsertResult.count !== rows.length) {
+    throw new Error(`PFF franchise upsert could not confirm ${rows.length} written rows. ${mayHaveWritten}`);
+  }
+
+  return upsertResult.count;
+}
