@@ -2,7 +2,24 @@
 
 ## Rice Football Analytics Platform
 
-Updated: November 7, 2026.
+Updated: November 14, 2026.
+
+## Latest handoff — November 14
+
+The six assignments below describe the previous sprint. All six implementations
+are now merged, including PFF client, Q&A setup/verification, report tags/search,
+sample news, data dictionary, and login/session foundation. Q&A APIs still lack
+authorization; login protects the account page only. Reports still use fixtures.
+
+The lead has requested a proposed storage contract for the next five tickets:
+CFBD ingestion, PFF franchise ingestion, one Hudl game/roster import, report metadata
+persistence, and Q&A authorization. See `docs/storage-contract.md` and
+`supabase/setup/2026-11-14-source-data.sql`. These supersede older exclusions only
+for that bounded work after lead approval. The lead reports the six tables were created on November 14; hosted schema/grants
+are not independently verified. The shared Q&A permission rule remains proposed
+until lead confirmation. See docs/sprint-kickoff.md for readiness and fixed inputs. Do not apply
+hosted SQL, expand the football model, or treat these as a finalized production
+schema. GitHub Actions scheduling belongs to the lead, not the developer tickets.
 
 This is the primary project-context document for developers and coding agents.
 Read it before making implementation decisions. Newer explicit instructions from
