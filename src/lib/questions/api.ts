@@ -27,7 +27,7 @@ export async function submitQuestion(question: NewQuestion): Promise<Question> {
 }
 
 /** Updates a question's status and/or answer and returns it as saved. */
-export async function patchQuestion(id: number, update: QuestionUpdate): Promise<Question> {
+export async function patchQuestion(id: string, update: QuestionUpdate): Promise<Question> {
   const { question } = await request<{ question: Question }>("PATCH", `/api/questions/${id}`, update);
   return question;
 }

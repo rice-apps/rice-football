@@ -13,7 +13,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
   const id = parseQuestionId((await params).id);
   if (id === null) {
-    return Response.json({ error: "Question id must be a positive whole number." }, { status: 400 });
+    return Response.json({ error: "Question id must be a valid UUID." }, { status: 400 });
   }
 
   // Invalid JSON becomes undefined, which the validator rejects.

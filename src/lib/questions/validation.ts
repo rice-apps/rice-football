@@ -74,10 +74,9 @@ export function validateQuestionUpdate(body: unknown): ValidationResult<Question
     : { ok: true, value: update };
 }
 
-/** Returns the numeric database id, or null if `id` isn't a positive whole number. */
-export function parseQuestionId(id: string): number | null {
-  const parsed = Number(id);
-  return /^\d+$/.test(id) && Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
+/** Returns the UUID database id, or null if `id` isn't a UUID. */
+export function parseQuestionId(id: string): string | null {
+  return /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(id) ? id : null;
 }
 
 // Returns the trimmed text, or records an error and returns "" (unused once there are errors).
