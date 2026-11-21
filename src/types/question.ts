@@ -4,7 +4,7 @@
 export type QuestionStatus = "open" | "in-progress" | "answered";
 
 export type Question = {
-  id: number; // database id
+  id: string; // UUID database id
   submittedBy: string;
   submitterTitle: string;
   text: string;

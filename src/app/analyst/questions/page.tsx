@@ -36,8 +36,8 @@ type StatusSave = { state: "saving"; status: QuestionStatus } | { state: "saved"
 
 export default function AnalystQuestionsPage() {
   const [list, setList] = useState<ListState>({ status: "loading" });
-  const [statusSaves, setStatusSaves] = useState<Record<number, StatusSave>>({});
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [statusSaves, setStatusSaves] = useState<Record<string, StatusSave>>({});
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [editorDirty, setEditorDirty] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -65,12 +65,12 @@ export default function AnalystQuestionsPage() {
     );
   }
 
-  function setStatusSave(id: number, save: StatusSave) {
+  function setStatusSave(id: string, save: StatusSave) {
     setStatusSaves((current) => ({ ...current, [id]: save }));
   }
 
   // Hides "Saved" after a moment, unless the status has been changed again since.
-  function clearSavedNote(id: number) {
+  function clearSavedNote(id: string) {
     setStatusSaves((current) => {
       if (current[id]?.state !== "saved") return current;
       const next = { ...current };
@@ -92,7 +92,7 @@ export default function AnalystQuestionsPage() {
     }
   }
 
-  function openEditor(id: number) {
+  function openEditor(id: string) {
     if (editingId !== null && editorDirty && !window.confirm("Discard the answer you're writing?")) return;
     setEditingId(id);
     setEditorDirty(false);
